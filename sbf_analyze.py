@@ -1,12 +1,14 @@
+# This is where sbf.py saves its results
 filename = 'record.txt'
 
 with open(filename) as f:
 	lines = f.readlines()
 
+# First line will contain the angle supplied in sbf.py
 angle = lines.pop(0)
 
+# Store results in list of dicts
 table = []
-
 for line in lines:
 	li = line.split()
 	t = {}
@@ -16,8 +18,4 @@ for line in lines:
 	table.append(t)
 
 print("Success!")
-print("Length of table: " + str(len(table)))
-
-for item in table:
-	print(str(item['x']) + ", " + str(item['y']) + ", " + str(item['t']))
-	
+print("Length of table: " + str(len(table)))	

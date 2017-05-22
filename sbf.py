@@ -1,7 +1,8 @@
 """
-Matplotlib SBF Model
+Spatial Boundary Formation Model
 Built with python 3.6.1, matplotlib, and numpy
-Limited functionality, only works with 90 deg and ints for dots
+Creates a scatterplot with random values, then animates a line to move over 
+at an angle (from user input), then records when the line passes over each dot
 
 Used as a starting point: 
 http://jakevdp.github.io/blog/2012/08/18/matplotlib-animation-tutorial/
@@ -15,10 +16,9 @@ http://stackoverflow.com/questions/11907947/how-to-check-if-a-point-lies-on-a-li
 author: Jonathan Arias
 """
 
-import numpy as np
+from numpy import random
 from matplotlib import pyplot as plt
 from matplotlib import animation
-from matplotlib import path
 from math import radians
 from math import tan
 from time import time 
@@ -82,7 +82,7 @@ def init():
     line.set_data([],[])
     return line,
 
-# Initialize list to store data (timestamp of line crossing a point, point coords, etc)
+# Initialize list to store data
 record = []
 
 # Save the current time before line starts moving over plot
@@ -94,30 +94,28 @@ def animate(i):
     Y = (0, 10)
     a = Point((i*0.01) % rotor - displacement,0,0)
     b = Point((i*0.01) % rotor,10,0)
+    # O(N*F) where N is number of points and F is number of frames
+    # This is clearly unefficient and will need to be modified
     for point in points:
     	if is_between(a, b, point):
     		if not any(item['pointnum'] == point.num for item in record):
-    			print("Passed point: " + str(point.num))
-    			record.append({'frame': i, 'pointnum': point.num, 'x': point.x, 'y': point.y, 'timestamp': round(time() - start_time, 3)})
+    			record.append({'frame': i, 'pointnum': point.num, 'x': point.x, 
+    				'y': point.y, 'timestamp': round(time() - start_time, 3)})
 
     line.set_data(X,Y)
     return line,
 
 # Call the animator, blit=True means only re-draw the parts that have changed
 anim = animation.FuncAnimation(fig,animate,init_func = init, 
-                               frames = 10000, interval = 1, blit = True)
+									frames = 10000, interval = 1, blit = True)
 
 plt.show()
 
+# Store the results (saved in record) to record.txt
 newfile = 'record.txt'
 with open(newfile,'w') as io:
 	io.write("Angle: " + str(theta) + "\n")
 
 	for item in record:
-		io.write(str(item['x']) + " " + str(item['y']) + " " + str(item['timestamp']) + "\n")
-		# io.write("Frame: " + str(item['frame']) + ", pointnum: " + str(item['pointnum']) + ", x: " + str(item['x']) + ", y: " + str(item['y']) + ', timestamp: ' + str(item['timestamp']) + "\n")
-
-	# io.write('\n')
-
-	# for point in points:
-	# 	io.write("Pointnum: " + str(point.num) + ", coords: (" + str(point.x) + ", " + str(point.y) + ")\n")
+		io.write(str(item['x']) + " " + str(item['y']) + " " + 
+			str(item['timestamp']) + "\n")
