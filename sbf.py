@@ -16,7 +16,7 @@ http://stackoverflow.com/questions/11907947/how-to-check-if-a-point-lies-on-a-li
 author: Jonathan Arias
 """
 
-from numpy import random
+import numpy as np
 from matplotlib import pyplot as plt
 from matplotlib import animation
 from math import radians
