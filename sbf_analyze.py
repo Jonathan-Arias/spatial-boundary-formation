@@ -38,11 +38,15 @@ def computeAngle(phi_ij, phi_jk, v_ij, v_jk):
 	"""Find the orientation of the illusory edge"""
 	numerator = v_jk*sin(phi_jk) - v_ij*sin(phi_ij)
 	denominator = v_jk*cos(phi_jk) - v_ij*cos(phi_ij)
+	if denominator == 0:
+		denominator = 0.1
 	theta = atan(numerator/denominator)
 	theta = degrees(theta)
 	return abs(theta)
 
+# Process data in groups of three
 maxindex = len(table) - 2
+
 angles = []
 velocities = []
 
@@ -63,6 +67,9 @@ for i in range(0,maxindex):
 	if i == 0: # Only on the first run will we store v_12 to avoid storing duplicates
 		velocities.append(v_12)
 	velocities.append(v_23)
+
+# Remove zeroes from angles list
+angles = [x for x in angles if x != 0]
 
 # Find average of all angles collected
 angle_average = round(harmonic_mean(angles),1)
