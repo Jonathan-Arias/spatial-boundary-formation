@@ -50,7 +50,7 @@ while theta <= 0:
 # Setup the figure, axis, and plot element (line) to animate
 fig = plt.figure()
 ax = plt.axes(xlim=(0,10),ylim=(0,10))
-line, = ax.plot([],[], linewidth=1, c='red')
+line, = ax.plot([],[], linewidth=1, c='white')
 
 # Generate N random (x,y) coords and plot with scatter
 N = 100
