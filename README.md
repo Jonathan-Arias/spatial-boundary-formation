@@ -7,4 +7,4 @@ the original value. I have noticed that running this on a 3.5 GHz quadcore i5 is
 and faster than a 2.0 GHz dualcore i5. YMMV. The aforementioned brute force approach is in sbf.py, 
 lines 99 - 103. 
 
-/sbf.py will generate a txt file in the same directory. Run sbf_analyze.py after running sbf.py./
+sbf.py will generate a txt file in the same directory. Run sbf_analyze.py after running sbf.py.
