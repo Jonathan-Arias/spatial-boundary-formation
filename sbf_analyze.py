@@ -1,24 +1,10 @@
+import pickle
 from math import *
 from statistics import harmonic_mean
 
-# This is where sbf.py saves its results
-filename = 'record.txt'
-
-with open(filename) as f:
-	lines = f.readlines()
-
-# First line will contain the angle supplied in sbf.py
-angle = lines.pop(0)
-
-# Store results in list of dicts
-table = []
-for line in lines:
-	li = line.split()
-	t = {}
-	t['x'] = float(li[0])
-	t['y'] = float(li[1])
-	t['t'] = float(li[2])
-	table.append(t)
+record = []
+with open('record.pickle', 'rb') as data:
+	record = pickle.load(data)
 
 def computePhi(p1,p2):
 	"""Find angle formed between horizontal line passing through p1 and line connecting p1 to p2"""
@@ -45,16 +31,16 @@ def computeAngle(phi_ij, phi_jk, v_ij, v_jk):
 	return abs(theta)
 
 # Process data in groups of three
-maxindex = len(table) - 2
+maxindex = len(record) - 2
 
 angles = []
 velocities = []
 
 # Iterate through data and collect all possible angles/velocities
 for i in range(0,maxindex):
-	p1= table[i]
-	p2 = table[i+1]
-	p3 = table[i+2]
+	p1= record[i]
+	p2 = record[i+1]
+	p3 = record[i+2]
 
 	phi_12 = computePhi(p1,p2)
 	v_12 = computeVelocity(p1,p2)

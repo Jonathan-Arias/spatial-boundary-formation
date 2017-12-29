@@ -17,6 +17,7 @@ author: Jonathan Arias
 """
 
 import numpy as np
+import pickle
 from matplotlib import pyplot as plt
 from matplotlib import animation
 from math import radians
@@ -100,7 +101,7 @@ def animate(i):
     	if is_between(a, b, point):
     		if not any(item['pointnum'] == point.num for item in record):
     			record.append({'frame': i, 'pointnum': point.num, 'x': point.x, 
-    				'y': point.y, 'timestamp': round(time() - start_time, 3)})
+    				'y': point.y, 't': round(time() - start_time, 3)})
 
     line.set_data(X,Y)
     return line,
@@ -112,10 +113,5 @@ anim = animation.FuncAnimation(fig,animate,init_func = init,
 plt.show()
 
 # Store the results (saved in record) to record.txt
-newfile = 'record.txt'
-with open(newfile,'w') as io:
-	io.write("Angle: " + str(theta) + "\n")
-
-	for item in record:
-		io.write(str(item['x']) + " " + str(item['y']) + " " + 
-			str(item['timestamp']) + "\n")
+with open('record.pickle','wb') as data:
+	pickle.dump(record, data)
